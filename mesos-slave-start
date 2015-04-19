@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+echo "start mesos master with parameter : $@ "
+
+if [[ -z "$2" ]] ;then
+  echo "need more parameters"	
+  exit 1
+fi	
+
+case $1 in
+  -r=*|--route=*)
+  ROUTE="${1#*=}"
+  ;;
+  *)
+  
+  # unknown option
+  echo "need route parameter"
+  exit 2
+  ;;
+esac
+
+echo "add static route to $ROUTE through eth0"
+route add -net $ROUTE eth0
+
+mesos-slave --ip=$(ip -o -4 addr list eth0 | grep global | awk '{print $4}' | cut -d/ -f1) ${@:2}
