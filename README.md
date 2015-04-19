@@ -11,9 +11,13 @@ docker run -d --name=mesos-slave  --privileged -p 5051:5051 duffqiu/mesos-slave-
 - note: other parameters are the mesos slave's parameters. you can specify more parameters
 - note: must use --privileged to run the container
 - note: if run mutiple slave in the same docker, need to change the port's mapping
+- note: don't use the `--ip` parameter because it is set by the script auto
 
-- example:
+### example:
 
 ```
 docker run -d --name=mesos-slave  --privileged -p 5051:5051 duffqiu/mesos-slave-dind --route=10.0.2.0/24 --containerizers=docker --work_dir=/var/lib/mesos/slave --master=zk://10.0.2.15:2181/mesos --hostname=10.0.2.15
 ```
+
+### docker in docker challenge
+- need to do the network design.
